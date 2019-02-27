@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">趣创助手</string>
-    <string name="WXAccessibilityService_label">趣创助手</string>
+    <string name="WXAccessibilityService_label">自动加好友</string>
     <string name="description">开启趣创助手,即可使用微信辅助功能</string>
 </resources>

@@ -14,13 +14,13 @@ import android.view.accessibility.AccessibilityNodeInfo
 import java.util.ArrayList
 
 /**
- * Created by Ansen on 2017/1/7 10:31.
+ * Created by Ansen on 2016/5/7 10:31.
  *
  * @E-mail: tomorrow_p@163.com
  * @Blog: http://blog.csdn.net/qq_25804863
  * @Github: https://github.com/ansen360
  * @PROJECT_NAME: CodeRepository
- * @PACKAGE_NAME: com.tomorrow_p.service
+ * @PACKAGE_NAME: com.ansen.service
  * @Description: AccessibilityService可以获取当前页面的信息(view的节点), 并且可以模拟点击事件
  */
 class WXAccessibilityService : AccessibilityService() {
