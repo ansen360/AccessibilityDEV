@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AccessibilityDEV</string>
+    <string name="WXAccessibilityService_label">微信辅助</string>
+    <string name="description">开启此功能,即可使用微信辅助功能</string>
+</resources>
