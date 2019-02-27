@@ -78,10 +78,16 @@ public class HelperService extends AccessibilityService {
                         }
                         break;*/
                     case "com.tencent.mm.ui.widget.a.c":
-                        Log.d(TAG,"提示:  widget.a.c ");
+                        Log.d(TAG, "提示:  widget.a.c ");
+                        List<AccessibilityNodeInfo> az_ = getRootInActiveWindow().findAccessibilityNodeInfosByViewId("com.tencent.mm:id/az_");
+                        if (az_ != null && az_.size() > 0) {
+                            az_.get(0).performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                            SystemClock.sleep(500);
+                            performBackClick();
+                        }
                         break;
                     case "com.tencent.mm.ui.base.p":
-                        Log.d(TAG,"提示:  .ui.base.p");
+                        Log.d(TAG, "提示:  .ui.base.p");
                         break;
                     case "com.tencent.mm.chatroom.ui.ChatroomInfoUI":   // 聊天信息
                     case "com.tencent.mm.plugin.chatroom.ui.ChatroomInfoUI":
@@ -94,14 +100,17 @@ public class HelperService extends AccessibilityService {
                             Log.d(TAG, "沒找到 查看全部群成员 按鈕");
 
                             List<AccessibilityNodeInfo> listNodes1 = nodeInfo.findAccessibilityNodeInfosByViewId("android:id/list");
-                            listNodes1.get(0).performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
-                            Log.d(TAG, "滑动后继续查找");
-                            SystemClock.sleep(1000);
-                            // 查找
-                            List<AccessibilityNodeInfo> listNodes2 = getRootInActiveWindow().findAccessibilityNodeInfosByViewId("android:id/title");
-                            if (listNodes2 != null && listNodes2.size() > 0) {
-                                listNodes2.get(0).getParent().performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                                Log.d(TAG, "点击: " + listNodes2.get(0).getText());
+                            if (listNodes1 != null && listNodes1.size() > 0) {
+
+                                listNodes1.get(0).performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
+                                Log.d(TAG, "滑动后继续查找");
+                                SystemClock.sleep(1000);
+                                // 查找
+                                List<AccessibilityNodeInfo> listNodes2 = getRootInActiveWindow().findAccessibilityNodeInfosByViewId("android:id/title");
+                                if (listNodes2 != null && listNodes2.size() > 0) {
+                                    listNodes2.get(0).getParent().performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                                    Log.d(TAG, "点击: " + listNodes2.get(0).getText());
+                                }
                             }
                         } else {
                             listNodes.get(0).getParent().performAction(AccessibilityNodeInfo.ACTION_CLICK);
@@ -130,7 +139,7 @@ public class HelperService extends AccessibilityService {
                                     if (nodeInfo1 != null && nodeInfo1.size() > 0) {
                                         int childCount = nodeInfo1.get(0).getChildCount();
                                         if (childCount > 0) {
-                                            index=0;
+                                            index = 0;
                                         }
                                         if (index < childCount) {
                                             nodeInfo1.get(0).getChild(index).performAction(AccessibilityNodeInfo.ACTION_CLICK);
@@ -147,7 +156,7 @@ public class HelperService extends AccessibilityService {
                         } else {
                             Log.d(TAG, "添加联系页面");
                             List<AccessibilityNodeInfo> icon = getRootInActiveWindow().findAccessibilityNodeInfosByViewId("com.tencent.mm:id/iq");
-                            if(icon.size()>0){
+                            if (icon.size() > 0) {
                                 performBackClick();
                                 Log.d(TAG, "已经添加 直接返回");
                                 break;
@@ -156,7 +165,7 @@ public class HelperService extends AccessibilityService {
                             if (adds != null && adds.size() > 0) {
                                 adds.get(0).getParent().performAction(AccessibilityNodeInfo.ACTION_CLICK);
                                 Log.d(TAG, "点击添加");
-                            }else{
+                            } else {
                                 performBackClick();
                             }
                             SystemClock.sleep(1000);
