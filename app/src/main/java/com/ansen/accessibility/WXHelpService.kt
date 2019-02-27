@@ -14,7 +14,7 @@ import com.orhanobut.hawk.Hawk
  * 微信自动加好友服务类
  */
 
-class AddService : AccessibilityService() {
+class WXHelpService : AccessibilityService() {
 
     private var isAdd = false
     private var index = 0
@@ -87,7 +87,7 @@ class AddService : AccessibilityService() {
                             Log.d(TAG, "聊天成员")
                             SystemClock.sleep(3000)
                             isAdd = false
-                            if(rootInActiveWindow==null){
+                            if (rootInActiveWindow == null) {
                                 return
                             }
                             val nodeInfos = rootInActiveWindow.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/e4_")
@@ -115,24 +115,27 @@ class AddService : AccessibilityService() {
                                 }
                             }
                         }
-                        "com.tencent.mm.plugin.profile.ui.ContactInfoUI" -> if (isAdd) {
-                            performBackClick()
-                            Log.d(TAG, "添加成功")
-                        } else {
-                            Log.d(TAG, "添加联系页面")
-                            val icon = rootInActiveWindow.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/iq")
-                            if (icon.size > 0) {
+                        "com.tencent.mm.plugin.profile.ui.ContactInfoUI" -> {
+                            SystemClock.sleep(500)
+                            if (isAdd) {
                                 performBackClick()
-                                Log.d(TAG, "已经添加 直接返回")
+                                Log.d(TAG, "添加成功")
                             } else {
-                                val adds = rootInActiveWindow.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/cs")
-                                if (adds != null && adds.size > 0) {
-                                    adds[0].parent.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-                                    Log.d(TAG, "点击添加")
-                                } else {
+                                Log.d(TAG, "添加联系页面")
+                                val icon = rootInActiveWindow.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/iq")
+                                if (icon.size > 0) {
                                     performBackClick()
+                                    Log.d(TAG, "已经添加 直接返回")
+                                } else {
+                                    val adds = rootInActiveWindow.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/cs")
+                                    if (adds != null && adds.size > 0) {
+                                        adds[0].parent.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                                        Log.d(TAG, "点击添加")
+                                    } else {
+                                        performBackClick()
+                                    }
+                                    SystemClock.sleep(1000)
                                 }
-                                SystemClock.sleep(1000)
                             }
                         }
                         "com.tencent.mm.plugin.profile.ui.SayHiWithSnsPermissionUI" -> {
@@ -154,6 +157,14 @@ class AddService : AccessibilityService() {
                             Log.d(TAG, "自动点赞")
                             autoZan()
                         }
+                    }
+                }
+
+                if (Hawk.get(MainActivity.RED_PACKET, false)) {
+                    when (className) {
+                        "com.tencent.mm.ui.LauncherUI" -> openRedPacket()
+                        "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyReceiveUI" -> clickRedPacket()
+                        "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyDetailUI" -> performBackClick()
                     }
                 }
             }
@@ -213,13 +224,52 @@ class AddService : AccessibilityService() {
         }
     }
 
+    //对话框自动点击
+    private fun dialogClick() {
+        val inviteNode = rootInActiveWindow.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/az_")[0]
+        inviteNode.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+    }
+
+    //遍历获得未打开红包
+    private fun openRedPacket() {
+        val rootNode = rootInActiveWindow
+        if (rootNode != null) {
+            val listNode = rootNode.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/cpj")
+            if (listNode != null && listNode.size > 0) {
+                val msgNodes = listNode[0].findAccessibilityNodeInfosByViewId("com.tencent.mm:id/azn")
+                if (msgNodes != null && msgNodes.size > 0) {
+                    for (rpNode in msgNodes) {
+                        val rpStatusNode = rpNode.findAccessibilityNodeInfosByText("领取红包")
+                        if (rpStatusNode != null && rpStatusNode.size > 0) {
+                            rpNode.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                            break
+                        }
+                    }
+                }
+            }
+
+
+        }
+    }
+
+    //打开红包
+    private fun clickRedPacket() {
+        val nodeInfo = rootInActiveWindow
+        val clickNode = nodeInfo.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/cnu")
+        if (clickNode != null && clickNode.size > 0) {
+            clickNode[0].performAction(AccessibilityNodeInfo.ACTION_CLICK)
+        } else {
+            performBackClick()
+        }
+    }
+
     override fun onInterrupt() {
 
     }
 
     companion object {
 
-        private val TAG = "AddService"
+        private val TAG = "WXHelpService"
     }
 
 }

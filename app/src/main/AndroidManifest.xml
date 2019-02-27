@@ -22,7 +22,7 @@
         </activity>
 
         <service
-            android:name=".AddService"
+            android:name=".WXHelpService"
             android:enabled="true"
             android:exported="true"
             android:label="@string/WXAccessibilityService_label"
