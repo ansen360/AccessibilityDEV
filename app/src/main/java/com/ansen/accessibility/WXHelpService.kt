@@ -27,17 +27,17 @@ class WXHelpService : AccessibilityService() {
         Log.d("ansen", event.toString())
         when (eventType) {
             AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED -> if (event.parcelableData != null && event.parcelableData is Notification) {
-                val notification = event.parcelableData as Notification
-                val content = notification.tickerText.toString()
-                if (content.contains("请求添加你为朋友")) {
-                    val pendingIntent = notification.contentIntent
-                    try {
+//                val notification = event.parcelableData as Notification
+//                val content = notification.tickerText.toString()
+//                if (content.contains("请求添加你为朋友")) {
+//                    val pendingIntent = notification.contentIntent
+//                    try {
 //                        pendingIntent.send()
-                    } catch (e: PendingIntent.CanceledException) {
-                        e.printStackTrace()
-                    }
-
-                }
+//                    } catch (e: PendingIntent.CanceledException) {
+//                        e.printStackTrace()
+//                    }
+//
+//                }
             }
             AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
                 Log.d(TAG, className)
