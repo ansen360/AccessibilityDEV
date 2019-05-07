@@ -182,14 +182,14 @@ class WXHelpService : AccessibilityService() {
             while (true) {
                 val rootNode = rootInActiveWindow
                 if (rootNode != null) {
-                    val listNodes = rootNode.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/eew")
+                    val listNodes = rootNode.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/eii")    // ListView
                     if (listNodes != null && listNodes.size > 0) {
                         val listNode = listNodes[0]
-                        val zanNodes = listNode.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/ee2")
+                        val zanNodes = listNode.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/eho") // 点击ImageView
                         for (zan in zanNodes) {
                             zan.performAction(AccessibilityNodeInfo.ACTION_CLICK)
                             Thread.sleep(300)
-                            val zsNodes = rootInActiveWindow.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/edq")
+                            val zsNodes = rootInActiveWindow.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/eh_")    // 对话框容器
                             Thread.sleep(300)
                             if (zsNodes != null && zsNodes.size > 0) {
                                 if (zsNodes[0].findAccessibilityNodeInfosByText("赞").size > 0) {
